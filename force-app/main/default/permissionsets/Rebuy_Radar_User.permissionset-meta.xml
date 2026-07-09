@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Rebuy Radar User</label>
+    <description>Acesso de leitura ao radar de recompra. A visibilidade por carteira vem do sharing (Owner = dono da conta).</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <objectPermissions>
+        <object>Account_Purchase_Pattern__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>false</allowCreate>
+        <allowEdit>false</allowEdit>
+        <allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Account_Key__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Last_Purchase_Date__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Average_Interval_Days__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Expected_Next_Purchase_Date__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Average_Order_Value__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Value_At_Risk__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Risk_Score__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Risk_Level__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Purchases_Analyzed__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+</PermissionSet>

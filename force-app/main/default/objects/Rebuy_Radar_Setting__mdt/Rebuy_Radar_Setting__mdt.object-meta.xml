@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Configuração do Rebuy Radar</label>
+    <pluralLabel>Configurações do Rebuy Radar</pluralLabel>
+    <visibility>Public</visibility>
+    <description>Parâmetros do motor de recompra, ajustáveis pelo admin sem deploy de código.</description>
+</CustomObject>
