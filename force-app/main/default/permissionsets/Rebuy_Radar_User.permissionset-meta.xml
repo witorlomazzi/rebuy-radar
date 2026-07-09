@@ -16,6 +16,7 @@
     <fieldPermissions><field>Account_Purchase_Pattern__c.Last_Purchase_Date__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
     <fieldPermissions><field>Account_Purchase_Pattern__c.Average_Interval_Days__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
     <fieldPermissions><field>Account_Purchase_Pattern__c.Expected_Next_Purchase_Date__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Account_Purchase_Pattern__c.Days_Overdue__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
     <fieldPermissions><field>Account_Purchase_Pattern__c.Average_Order_Value__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
     <fieldPermissions><field>Account_Purchase_Pattern__c.Value_At_Risk__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
     <fieldPermissions><field>Account_Purchase_Pattern__c.Risk_Score__c</field><readable>true</readable><editable>false</editable></fieldPermissions>

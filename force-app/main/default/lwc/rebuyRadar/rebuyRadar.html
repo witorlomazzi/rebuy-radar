@@ -1,0 +1,75 @@
+<template>
+    <lightning-card title="Radar de Recompra" icon-name="standard:metrics">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={summary}>
+                <div class="slds-grid slds-wrap slds-gutters_x-small slds-m-bottom_small">
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-5">
+                        <div class="tile tile-critico">
+                            <span class="tile-num">{summary.critico}</span>
+                            <span class="tile-label">Crítico</span>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-5">
+                        <div class="tile tile-risco">
+                            <span class="tile-num">{summary.risco}</span>
+                            <span class="tile-label">Risco</span>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-5">
+                        <div class="tile tile-atencao">
+                            <span class="tile-num">{summary.atencao}</span>
+                            <span class="tile-label">Atenção</span>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-5">
+                        <div class="tile tile-emdia">
+                            <span class="tile-num">{summary.emDia}</span>
+                            <span class="tile-label">Em dia</span>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-5">
+                        <div class="tile tile-valor">
+                            <span class="tile-num">
+                                <lightning-formatted-number
+                                    value={summary.totalValueAtRisk}
+                                    format-style="currency"
+                                    currency-code="BRL"
+                                    maximum-fraction-digits="0">
+                                </lightning-formatted-number>
+                            </span>
+                            <span class="tile-label">Total em risco</span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <lightning-combobox
+                label="Filtrar por nível"
+                value={level}
+                options={filterOptions}
+                onchange={handleFilterChange}
+                class="slds-m-bottom_small filter-box">
+            </lightning-combobox>
+
+            <template lwc:if={error}>
+                <div class="slds-text-color_error slds-p-vertical_small" role="alert">{error}</div>
+            </template>
+
+            <template lwc:if={hasRows}>
+                <lightning-datatable
+                    key-field="id"
+                    data={rows}
+                    columns={columns}
+                    hide-checkbox-column
+                    show-row-number-column>
+                </lightning-datatable>
+            </template>
+
+            <template lwc:if={showEmptyState}>
+                <div class="slds-align_absolute-center slds-p-vertical_large slds-text-color_weak">
+                    Nenhuma conta no radar para este filtro. Rode o batch (RebuyPatternBatch) ou ajuste o nível.
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
