@@ -14,6 +14,15 @@ public with sharing class RebuyRadarController {
     }
 
     @AuraEnabled(cacheable=true)
+    public static Account_Purchase_Pattern__c getForAccount(Id accountId) {
+        try {
+            return AccountPurchasePatternSelector.getByAccount(accountId);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled(cacheable=true)
     public static RadarSummary getSummary() {
         try {
             RadarSummary summary = new RadarSummary();

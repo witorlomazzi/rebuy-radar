@@ -1,0 +1,88 @@
+<template>
+    <lightning-card title="Radar de Recompra" icon-name="standard:account">
+        <template lwc:if={hasPattern}>
+            <span slot="actions" class={badgeClass}>{riskLabel}</span>
+            <div class={cardAccentClass}></div>
+            <div class="slds-p-horizontal_medium slds-p-bottom_small">
+                <dl class="slds-grid slds-wrap slds-gutters_x-small">
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 metric">
+                        <dt class="metric-label">Score de risco</dt>
+                        <dd class="metric-value">
+                            <lightning-formatted-number value={riskScore} maximum-fraction-digits="0">
+                            </lightning-formatted-number>
+                        </dd>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 metric">
+                        <dt class="metric-label">Dias em atraso</dt>
+                        <dd class="metric-value">
+                            <lightning-formatted-number value={daysOverdue} maximum-fraction-digits="0">
+                            </lightning-formatted-number>
+                        </dd>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 metric">
+                        <dt class="metric-label">Valor em risco</dt>
+                        <dd class="metric-value">
+                            <lightning-formatted-number
+                                value={valueAtRisk}
+                                format-style="currency"
+                                currency-code="BRL"
+                                maximum-fraction-digits="0">
+                            </lightning-formatted-number>
+                        </dd>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 metric">
+                        <dt class="metric-label">Última compra</dt>
+                        <dd class="metric-value">
+                            <lightning-formatted-date-time value={lastPurchase} year="numeric" month="short" day="2-digit">
+                            </lightning-formatted-date-time>
+                        </dd>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 metric">
+                        <dt class="metric-label">Próxima esperada</dt>
+                        <dd class="metric-value">
+                            <lightning-formatted-date-time value={expectedNext} year="numeric" month="short" day="2-digit">
+                            </lightning-formatted-date-time>
+                        </dd>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 metric">
+                        <dt class="metric-label">Intervalo médio</dt>
+                        <dd class="metric-value">
+                            <lightning-formatted-number value={averageInterval} maximum-fraction-digits="0">
+                            </lightning-formatted-number>
+                            <span class="metric-unit">dias</span>
+                        </dd>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 metric">
+                        <dt class="metric-label">Ticket médio</dt>
+                        <dd class="metric-value">
+                            <lightning-formatted-number
+                                value={averageOrderValue}
+                                format-style="currency"
+                                currency-code="BRL"
+                                maximum-fraction-digits="0">
+                            </lightning-formatted-number>
+                        </dd>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-3 metric">
+                        <dt class="metric-label">Compras analisadas</dt>
+                        <dd class="metric-value">
+                            <lightning-formatted-number value={purchasesAnalyzed} maximum-fraction-digits="0">
+                            </lightning-formatted-number>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </template>
+
+        <template lwc:if={error}>
+            <div class="slds-p-around_medium slds-text-color_error" role="alert">{error}</div>
+        </template>
+
+        <template lwc:if={showEmptyState}>
+            <div class="slds-p-around_medium slds-align_absolute-center slds-text-color_weak">
+                Sem padrão de recompra calculado para esta conta. O radar preenche após o batch noturno
+                (RebuyPatternBatch) ler o histórico de pedidos ganhos.
+            </div>
+        </template>
+    </lightning-card>
+</template>

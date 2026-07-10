@@ -72,6 +72,44 @@ private class RebuyRadarControllerTest {
     }
 
     @IsTest
+    static void radarDaContaRetornaOSnapshotDaConta() {
+        Account critica = [SELECT Id FROM Account WHERE Name = 'Vetra Radar 0' LIMIT 1];
+
+        Account_Purchase_Pattern__c snapshot = RebuyRadarController.getForAccount(critica.Id);
+
+        Assert.areNotEqual(null, snapshot, 'a conta tem padrão calculado');
+        Assert.areEqual('Critico', snapshot.Risk_Level__c);
+        Assert.areEqual(critica.Id, snapshot.Account__c);
+    }
+
+    @IsTest
+    static void radarDaContaSemPadraoRetornaNulo() {
+        Account semPadrao = new Account(Name = 'Vetra Sem Padrao');
+        insert semPadrao;
+
+        Account_Purchase_Pattern__c snapshot = RebuyRadarController.getForAccount(semPadrao.Id);
+
+        Assert.areEqual(null, snapshot, 'conta sem snapshot não quebra o card');
+    }
+
+    @IsTest
+    static void radarDaContaComIdNuloRetornaNulo() {
+        Assert.areEqual(null, RebuyRadarController.getForAccount(null), 'id nulo não consulta nem quebra');
+    }
+
+    @IsTest
+    static void radarDaContaUsaStubEmTesteUnitario() {
+        Account conta = [SELECT Id FROM Account WHERE Name = 'Vetra Radar 1' LIMIT 1];
+        Id outraConta = [SELECT Id FROM Account WHERE Name = 'Vetra Radar 2' LIMIT 1].Id;
+        AccountPurchasePatternSelector.testRecords = new List<Account_Purchase_Pattern__c>{
+            new Account_Purchase_Pattern__c(Account__c = conta.Id, Risk_Level__c = 'Risco')
+        };
+
+        Assert.areEqual('Risco', RebuyRadarController.getForAccount(conta.Id).Risk_Level__c, 'stub casa pela conta');
+        Assert.areEqual(null, RebuyRadarController.getForAccount(outraConta), 'sem match no stub retorna nulo');
+    }
+
+    @IsTest
     static void usuarioSemPermissaoNaoLeNada() {
         Profile standard = [SELECT Id FROM Profile WHERE Name IN ('Standard User', 'Usuário padrão') LIMIT 1];
         User semAcesso = new User(

@@ -44,6 +44,32 @@ public inherited sharing class AccountPurchasePatternSelector {
         ];
     }
 
+    public static Account_Purchase_Pattern__c getByAccount(Id accountId) {
+        if (accountId == null) {
+            return null;
+        }
+        if (testRecords != null) {
+            for (Account_Purchase_Pattern__c p : testRecords) {
+                if (p.Account__c == accountId) {
+                    return p;
+                }
+            }
+            return null;
+        }
+        List<Account_Purchase_Pattern__c> found = [
+            SELECT Id, Account__c, Account__r.Name, Risk_Level__c, Risk_Score__c,
+                   Value_At_Risk__c, Days_Overdue__c, Average_Interval_Days__c,
+                   Average_Order_Value__c, Last_Purchase_Date__c,
+                   Expected_Next_Purchase_Date__c, Purchases_Analyzed__c
+            FROM Account_Purchase_Pattern__c
+            WHERE Account__c = :accountId
+            WITH USER_MODE
+            ORDER BY LastModifiedDate DESC
+            LIMIT 1
+        ];
+        return found.isEmpty() ? null : found[0];
+    }
+
     public static List<AggregateResult> getSummaryByLevel() {
         return [
             SELECT Risk_Level__c level, COUNT(Id) total, SUM(Value_At_Risk__c) valueAtRisk
