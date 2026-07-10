@@ -96,6 +96,31 @@ private class RebuyPatternBatchTest {
     }
 
     @IsTest
+    static void notificaSomenteContaQueTransicionaParaCritico() {
+        useDefaultSettings();
+        // Uma conta já tinha snapshot em Atenção; o recálculo a leva a Crítico (transição).
+        // As demais 199 não têm snapshot anterior (baseline) e não devem notificar.
+        Account alvo = [SELECT Id, OwnerId FROM Account WHERE Name = 'Vetra Cliente 0' LIMIT 1];
+        insert new Account_Purchase_Pattern__c(
+            Account__c = alvo.Id,
+            Account_Key__c = alvo.Id,
+            OwnerId = alvo.OwnerId,
+            Risk_Level__c = 'Atencao'
+        );
+
+        Test.startTest();
+        Database.executeBatch(new RebuyPatternBatch(), 2000);
+        Test.stopTest();
+
+        Account_Purchase_Pattern__c depois = [
+            SELECT Risk_Level__c FROM Account_Purchase_Pattern__c WHERE Account__c = :alvo.Id
+        ];
+        Assert.areEqual('Critico', depois.Risk_Level__c, 'o recálculo levou a conta a Crítico');
+        Assert.areEqual(1, RebuyRiskNotifier.lastRecipients.size(),
+            'só a conta que transicionou dispara notificação; as baseline não');
+    }
+
+    @IsTest
     static void agendamentoNoturnoEDisparoViaSchedulable() {
         useDefaultSettings();
 

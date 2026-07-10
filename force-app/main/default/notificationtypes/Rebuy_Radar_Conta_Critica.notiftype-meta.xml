@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomNotificationType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customNotifTypeName>Rebuy_Radar_Conta_Critica</customNotifTypeName>
+    <desktop>true</desktop>
+    <masterLabel>Rebuy Radar: Conta Crítica</masterLabel>
+    <mobile>true</mobile>
+</CustomNotificationType>

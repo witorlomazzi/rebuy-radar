@@ -27,6 +27,18 @@ public without sharing class RebuyPatternBatch implements Database.Batchable<SOb
         Date asOf = Date.today();
 
         Map<Id, Account> accountsById = new Map<Id, Account>(scope);
+
+        // Nível de risco ANTES do recálculo, para detectar quem acabou de virar Crítico.
+        // Query em contexto de sistema (batch without sharing): precisa enxergar toda a carteira.
+        Map<Id, String> previousLevelByAccount = new Map<Id, String>();
+        for (Account_Purchase_Pattern__c existing : [
+            SELECT Account__c, Risk_Level__c
+            FROM Account_Purchase_Pattern__c
+            WHERE Account__c IN :accountsById.keySet()
+        ]) {
+            previousLevelByAccount.put(existing.Account__c, existing.Risk_Level__c);
+        }
+
         Map<Id, List<Opportunity>> oppsByAccount = new Map<Id, List<Opportunity>>();
         for (Opportunity opp : OpportunityWonSelector.getWonByAccountIds(accountsById.keySet(), cutoff)) {
             if (!oppsByAccount.containsKey(opp.AccountId)) {
@@ -72,6 +84,10 @@ public without sharing class RebuyPatternBatch implements Database.Batchable<SOb
 
         if (!patterns.isEmpty()) {
             upsert patterns Account_Key__c;
+            // Notifica dono + gestor das contas que ACABARAM de virar Crítico (só na transição).
+            RebuyRiskNotifier.notifyCritical(
+                RebuyRiskNotifier.detectTransitions(previousLevelByAccount, patterns)
+            );
         }
     }
 
