@@ -43,7 +43,7 @@ O Rebuy Radar resolve isso em três passos:
 ## Setup
 
 ```bash
-git clone https://github.com/izzamol/rebuy-radar.git
+git clone https://github.com/witorlomazzi/rebuy-radar.git
 cd rebuy-radar
 npm install --legacy-peer-deps
 sf org login web -o witor-dev  # ou já autenticada
